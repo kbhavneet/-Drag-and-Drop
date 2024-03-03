@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Drag & Drop</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <div id="left">
+        <div class="list" draggable="true">
+          <img src="drag_drop_icon.png" alt="drag-drop icon" />List Item 1
+        </div>
+        <div class="list" draggable="true">
+          <img src="drag_drop_icon.png" alt="drag-drop icon" />List Item 2
+        </div>
+        <div class="list" draggable="true">
+          <img src="drag_drop_icon.png" alt="drag-drop icon" />List Item 3
+        </div>
+        <div class="list" draggable="true">
+          <img src="drag_drop_icon.png" alt="drag-drop icon" />List Item 4
+        </div>
+      </div>
+      <div id="right"></div>
+    </div>
+    <script>
+      // Get all elements with the class 'list'
+      let lists = document.getElementsByClassName("list");
+      let rightBox = document.getElementById("right");
+      let leftBox = document.getElementById("left");
+
+      // Iterate over each element with the class 'list'.
+      for (let list of lists) {
+        // Add an event listener for the 'dragstart' event
+        list.addEventListener("dragstart", function (e) {
+          // When a drag starts, store the reference to the dragged element
+          let selected = e.target;
+
+          // Add event listeners for the 'dragover' and 'drop' events on the right box
+          rightBox.addEventListener("dragover", function (e) {
+            // Prevent the default behavior of the browser (which is to not allow dropping) and enable dropping.
+            e.preventDefault();
+          });
+          rightBox.addEventListener("drop", function (e) {
+            rightBox.appendChild(selected);
+            // To ensure that there are no lingering references to the dragged element.
+            selected = null;
+          });
+
+          // Add event listeners for the 'dragover' and 'drop' events on the left box
+          leftBox.addEventListener("dragover", function (e) {
+            e.preventDefault();
+          });
+          leftBox.addEventListener("drop", function (e) {
+            leftBox.appendChild(selected);
+            selected = null;
+          });
+        });
+      }
+    </script>
+  </body>
+</html>
